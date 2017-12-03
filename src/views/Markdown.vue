@@ -7,6 +7,10 @@
      <Select v-model="type_id" style="width:120px">
         <Option v-for="item in types" :value="item.id" :key="item.id">{{ item.name }}</Option>
     </Select>
+    <CheckboxGroup v-model="tagIds">
+        <Checkbox v-for="item in tags" :label="item.id" :key="item.id +  '00' " >{{item.name}}</Checkbox>
+      
+    </CheckboxGroup>
      <Button type="primary" style="margin-left:10%" @click="AddArticle">发布文章</Button>
     <mavon-editor style="  margin-top: 30px;" v-model="mdString" placeholder="这里是文章内容.." @change="getChang"/>
   </div>
@@ -25,13 +29,16 @@ export default {
       mdString: '',
       content: '',
       type_id: '',
-      types: []
+      types: [],
+      tags:[],
+      tagIds:[]
     }
   },
   mounted () {
     this.$store.dispatch('TypeList').then((response) => {
       let data = response.data
       this.types = data.types ? data.types : []
+      this.tags = data.tags ? data.tags : []
     }).catch(err => {
       console.log(err)
       this.$Message.error('error')
@@ -39,14 +46,16 @@ export default {
   },
   methods: {
     AddArticle () {
+      console.log(this.tagIds)
       let title = this.title
       let content = this.content
       let typeId = this.type_id
+      let tagIds = this.tagIds
       if (!title || !content || !typeId) {
         this.$Message.error('param error')
         return
       }
-      let article = {title, content, type_id: typeId}
+      let article = {title, content, tagIds ,type_id: typeId}
       this.$store.dispatch('AddArticle', article).then((response) => {
         console.log(response)
         this.$Message.success('发布成功')

@@ -103,6 +103,7 @@ const store = new Vuex.Store({
           method: 'post',
           data: article
         }).then(response => {
+          console.log(response)
           if (response.data) {
             resolve(response)
           }
