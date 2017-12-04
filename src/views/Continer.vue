@@ -24,6 +24,16 @@
         <Button type="text" @click="toggleClick">
           <Icon type="navicon" size="32"></Icon>
         </Button>
+        <Dropdown class="drop-down" @on-click="toLogout">
+          <a href="javascript:void(0)">
+            {{this.$store.state.name}}
+            <Icon type="arrow-down-b"></Icon>
+          </a>
+          <DropdownMenu slot="list">
+            <DropdownItem name="userinfo">个人信息</DropdownItem>
+            <DropdownItem name="logout">退出登录</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
       <div class="layout-breadcrumb">
         <Breadcrumb v-if="mianbaos && mianbaos.length>0">
@@ -69,11 +79,22 @@ export default {
       }
     },
     selectSomeone (e) {
-      console.log(e)
-      console.log(this.mianbaos)
       this.$router.push({ name: e })
       let a = this.$router.currentRoute.matched
       this.mianbaos = a
+    },
+    toLogout (e) {
+      if (e === 'logout') {
+        this.$store
+        .dispatch('Logout')
+        .then(() => {
+          this.$Message.success('Logout Success!')
+          this.$router.push({ name: 'Login' })
+        })
+        .catch(() => {
+          this.$Message.error('logout Fail!')
+        })
+      }
     }
   }
 }
@@ -134,5 +155,9 @@ export default {
 }
 .ivu-col {
   transition: width 0.2s ease-in-out;
+}
+.drop-down {
+  float: right;
+  margin-right: 5%;
 }
 </style>

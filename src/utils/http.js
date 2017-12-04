@@ -1,7 +1,6 @@
 import { Message } from 'iview'
 import axios from 'axios'
-import store from '../store'
-
+import { getToken } from '../utils/token'
 let http = axios.create({
   baseURL: process.env.BASE_API
 })
@@ -10,8 +9,8 @@ http.defaults.timeout = 5000
 // Add a request interceptor
 http.interceptors.request.use(function (config) {
   // Do something before request is sent
-  if (store.getters.auth_token) {
-    config.headers['Authorization'] = store.getters.auth_token
+  if (getToken()) {
+    config.headers['Authorization'] = getToken()
   }
   config.headers['Content-Type'] = 'application/json'
   return config
@@ -25,7 +24,7 @@ http.interceptors.response.use(function (response) {
   // Do something with response data
   return response
 }, function (error) {
-  console.log(JSON.stringify(error))
+  // console.log(JSON.stringify(error))
   if (error && error.response) {
     if (error.response.status === 401) {
       Message.error({

@@ -6,7 +6,7 @@ import Markdown from '@/views/Markdown'
 import ArticleList from '@/views/ArticleList'
 import UserList from '@/views/UserList'
 import UserForm from '@/views/UserForm'
-import Home from '@/views/Home/Page'
+// import Home from '@/views/Home/Page'
 
 Vue.use(Router)
 export const menuRoutes = [
@@ -81,15 +81,16 @@ const loginRoute = {
   }
 }
 
-const homeRoute = {
-  path: '/home',
-  component: Home,
-  name: 'Home',
-  meta: {
-    name: '首页'
-  }
-}
-const routes = [loginRoute, homeRoute, ...menuRoutes]
+// const homeRoute = {
+//   path: '/home',
+//   component: Continer,
+//   name: 'Home',
+//   meta: {
+//     name: '首页'
+//   }
+// }
+// const routes = [loginRoute, homeRoute, ...menuRoutes]
+const routes = [loginRoute, ...menuRoutes]
 export default new Router({
   routes
 })

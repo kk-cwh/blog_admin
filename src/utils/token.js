@@ -2,11 +2,12 @@
 export const TokenKey = 'auth_token'
 
 export function getToken () {
-  console.log(12222)
+  // console.log('get token')
   return window.localStorage.getItem(TokenKey)
 }
 
 export function setToken (token) {
+  // console.log('set token')
   return window.localStorage.setItem(TokenKey, token)
 }
 

@@ -53,8 +53,10 @@ export default {
         if (valid) {
           this.$store.dispatch('Login', this.formInline).then(
           () => {
-            this.$Message.success('Success!')
-            this.$router.push({ name: 'Home' })
+            this.$store.dispatch('GetUserInfo').then(() => {
+              this.$Message.success('Success!')
+              this.$router.push({ name: 'Home' })
+            })
           }).catch(() => {
             this.$Message.error('Login Fail!')
           })

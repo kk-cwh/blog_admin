@@ -9,7 +9,7 @@
     </Select>
     <CheckboxGroup v-model="tagIds">
         <Checkbox v-for="item in tags" :label="item.id" :key="item.id +  '00' " >{{item.name}}</Checkbox>
-      
+
     </CheckboxGroup>
      <Button type="primary" style="margin-left:10%" @click="AddArticle">发布文章</Button>
     <mavon-editor style="  margin-top: 30px;" v-model="mdString" placeholder="这里是文章内容.." @change="getChang"/>
@@ -30,8 +30,8 @@ export default {
       content: '',
       type_id: '',
       types: [],
-      tags:[],
-      tagIds:[]
+      tags: [],
+      tagIds: []
     }
   },
   mounted () {
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     AddArticle () {
-      console.log(this.tagIds)
+      // console.log(this.tagIds)
       let title = this.title
       let content = this.content
       let typeId = this.type_id
@@ -55,9 +55,9 @@ export default {
         this.$Message.error('param error')
         return
       }
-      let article = {title, content, tagIds ,type_id: typeId}
+      let article = {title, content, tagIds, type_id: typeId}
       this.$store.dispatch('AddArticle', article).then((response) => {
-        console.log(response)
+        // console.log(response)
         this.$Message.success('发布成功')
         this.$router.push({name: 'ArticleList'})
       }).catch(err => {

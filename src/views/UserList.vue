@@ -108,7 +108,7 @@
         },
         changPage (page) {
           let data = {page}
-          console.log(data)
+
           this.$store.dispatch('UserList', data).then((response) => {
             this.loading = false
             let data = response.data.users
