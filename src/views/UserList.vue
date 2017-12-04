@@ -100,7 +100,7 @@
         show (index) {
           this.$Modal.info({
             title: '用户信息',
-            content: `Name：${this.data[index].name}<br>Age：${this.data[index].age}<br>Address：${this.data[index].address}`
+            content: `Name：${this.data[index].name}<br>Email：${this.data[index].email}<br>Date：${this.data[index].date}`
           })
         },
         remove (index) {
