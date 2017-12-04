@@ -10,20 +10,14 @@ import UserForm from '@/views/UserForm'
 
 Vue.use(Router)
 export const menuRoutes = [
-  {
-    path: '/',
-    component: Continer,
-    name: 'Home',
-    meta: {
-      name: '首页'
-    }
-  },
+
   {
     path: '/article',
     component: Continer,
     name: 'Article',
     meta: {
-      name: '文章管理'
+      name: '文章管理',
+      icon: 'document-text'
     },
     children: [
       {
@@ -49,7 +43,8 @@ export const menuRoutes = [
     component: Continer,
     name: 'User',
     meta: {
-      name: '用户管理'
+      name: '用户管理',
+      icon: 'person'
     },
     children: [{
       path: 'list',
@@ -81,16 +76,21 @@ const loginRoute = {
   }
 }
 
-// const homeRoute = {
-//   path: '/home',
-//   component: Continer,
-//   name: 'Home',
-//   meta: {
-//     name: '首页'
-//   }
-// }
-// const routes = [loginRoute, homeRoute, ...menuRoutes]
-const routes = [loginRoute, ...menuRoutes]
-export default new Router({
+const homeRoute = {
+  path: '/home',
+  component: Continer,
+  name: 'Home',
+  meta: {
+    name: '首页'
+  }
+}
+const routes = [loginRoute, homeRoute, ...menuRoutes]
+// const routes = [loginRoute, ...menuRoutes]
+const router = new Router({
   routes
 })
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  next()
+})
+export default router

@@ -7,10 +7,13 @@
         <div class="layout-logo-left">
           <img src="" alt="">
         </div>
-
+        <MenuItem name="Home">
+            <Icon type="home"></Icon>
+            首页
+        </MenuItem>
         <Submenu v-for="(item ,index) in routes" :key="index" :name="item.name">
           <template slot="title">
-            <Icon type="ios-people" :size="iconSize"></Icon>
+            <Icon :type="item.meta.icon" :size="iconSize"></Icon>
             <span v-if="spanLeft >= 4">{{item.meta.name}}</span>
           </template>
           <template v-if="item.children && item.children.length>0">
