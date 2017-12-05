@@ -1,20 +1,20 @@
 
 <template>
-  <div class="layout" :class="{'layout-hide-text': spanLeft < 5}">
-    <Row type="flex" class="row-me">
-      <Col :span="spanLeft" class="layout-menu-left">
+  <div class="layout">
+    <Row type="flex">
+      <Col class="layout-menu-left" :style="{width:width}">
       <Menu active-name="1" theme="dark" width="auto" @on-select="selectSomeone">
         <div class="layout-logo-left">
           <img src="" alt="">
         </div>
         <MenuItem name="Home">
-            <Icon type="home"></Icon>
-            首页
+        <Icon type="home"></Icon>
+        首页
         </MenuItem>
         <Submenu v-for="(item ,index) in routes" :key="index" :name="item.name">
           <template slot="title">
-            <Icon :type="item.meta.icon" :size="iconSize"></Icon>
-            <span v-if="spanLeft >= 4">{{item.meta.name}}</span>
+            <Icon :type="item.meta.icon"></Icon>
+            <span>{{item.meta.name}}</span>
           </template>
           <template v-if="item.children && item.children.length>0">
             <MenuItem v-for="(it ,i) in item.children " :key="i" :name="it.name">{{it.meta.name}}</MenuItem>
@@ -22,21 +22,24 @@
         </Submenu>
       </Menu>
       </Col>
-      <Col :span="spanRight">
+      <Col class="layout-main-right" :style="{ marginLeft:width}">
       <div class="layout-header">
+
         <Button type="text" @click="toggleClick">
           <Icon type="navicon" size="32"></Icon>
         </Button>
+
         <Dropdown class="drop-down" @on-click="toLogout">
           <a href="javascript:void(0)">
             {{this.$store.state.name}}
-            <Icon type="arrow-down-b"></Icon>
+            <Avatar style="background-color: #87d068" icon="person" />
           </a>
           <DropdownMenu slot="list">
             <DropdownItem name="userinfo">个人信息</DropdownItem>
             <DropdownItem name="logout">退出登录</DropdownItem>
           </DropdownMenu>
         </Dropdown>
+
       </div>
       <div class="layout-breadcrumb">
         <Breadcrumb v-if="mianbaos && mianbaos.length>0">
@@ -49,7 +52,7 @@
         </div>
       </div>
       <div class="layout-copy">
-        2011-2016 &copy; TalkingData
+        2017-2018 &copy; iView
       </div>
       </Col>
     </Row>
@@ -60,25 +63,18 @@ import { menuRoutes } from '../router'
 export default {
   data () {
     return {
-      spanLeft: 5,
-      spanRight: 19,
+      width: '180px',
       routes: menuRoutes,
       mianbaos: []
     }
   },
-  computed: {
-    iconSize () {
-      return this.spanLeft === 5 ? 14 : 24
-    }
-  },
+  computed: {},
   methods: {
     toggleClick () {
-      if (this.spanLeft === 5) {
-        this.spanLeft = 2
-        this.spanRight = 21
+      if (this.width === '180px') {
+        this.width = 0
       } else {
-        this.spanLeft = 5
-        this.spanRight = 19
+        this.width = '180px'
       }
     },
     selectSomeone (e) {
@@ -89,14 +85,14 @@ export default {
     toLogout (e) {
       if (e === 'logout') {
         this.$store
-        .dispatch('Logout')
-        .then(() => {
-          this.$Message.success('Logout Success!')
-          this.$router.push({ name: 'Login' })
-        })
-        .catch(() => {
-          this.$Message.error('logout Fail!')
-        })
+          .dispatch('Logout')
+          .then(() => {
+            this.$Message.success('Logout Success!')
+            this.$router.push({ name: 'Login' })
+          })
+          .catch(() => {
+            this.$Message.error('logout Fail!')
+          })
       }
     }
   }
@@ -108,41 +104,57 @@ export default {
   background: #f5f7f9;
   position: relative;
   border-radius: 4px;
-  overflow: hidden;
+  margin: 0;
   height: 100%;
   width: 100%;
 }
+.layout-menu-left {
+  position: fixed;
+  background: #464c5b;
+  height: 100%;
+  width: 180px;
+  order: -1;
+}
+.layout-main-right {
+  margin-left: 180px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+.layout-header {
+  position: fixed;
+  height: 60px;
+  width: 100%;
+  flex: 0 0 60px;
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  z-index: 10002;
+}
 .layout-breadcrumb {
-  padding: 10px 15px 0;
+  margin-top: 68px;
+  padding: 5px 0px 0px 20px;
+  flex: 0 0 30px;
 }
 .layout-content {
-  min-height: 100%;
-  margin: 15px;
-  overflow: hidden;
+  margin: 10px;
   background: #fff;
   border-radius: 4px;
+  flex-grow: 1;
+  overflow-x: hidden;
 }
 .layout-content-main {
   padding: 20px;
-  height: 1200px;
-  width: auto;
   overflow: auto;
-  margin-bottom: 100px;
+  overflow-y: scroll;
 }
 .layout-copy {
+  border-top: 1px solid #cfd8dc;
   text-align: center;
-  padding: 10px 0 20px;
   color: #9ea7b4;
+  flex: 1 0;
 }
-.layout-menu-left {
-  background: #464c5b;
-  height: 1400px;
-}
-.layout-header {
-  height: 60px;
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-}
+
 .layout-logo-left {
   width: 90%;
   height: 30px;
@@ -160,7 +172,10 @@ export default {
   transition: width 0.2s ease-in-out;
 }
 .drop-down {
-  float: right;
-  margin-right: 5%;
+  padding-top: 10px;
+  position: fixed;
+  right: 50px;
+  /* margin-right: 20%;
+  float: right; */
 }
 </style>

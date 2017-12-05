@@ -58,7 +58,6 @@ export const menuRoutes = [
       path: 'add',
       component: UserForm,
       name: 'UserForm',
-
       meta: {
         name: '添加用户'
       }
@@ -68,8 +67,9 @@ export const menuRoutes = [
   }
 ]
 const loginRoute = {
-  path: '/login',
+  path: '/',
   component: Login,
+  alias: '/login',
   name: 'Login',
   meta: {
     name: '登录'

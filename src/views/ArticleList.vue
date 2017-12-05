@@ -85,10 +85,12 @@
   },
       methods: {
         show (index) {
-          this.$Modal.info({
-            title: 'User Info',
-            content: `Name：${this.data[index].title}<br>Age：${this.data[index].content}<br>Address：${this.data[index].type}`
-          })
+          let id = this.data[index].id
+          window.open(`articles/${id}`)
+          // this.$Modal.info({
+          //   title: 'User Info',
+          //   content: `Name：${this.data[index].title}<br>Age：${this.data[index].content}<br>Address：${this.data[index].type}`
+          // })
         },
         remove (index) {
           this.data.splice(index, 1)

@@ -1,18 +1,24 @@
 <template>
   <div class="editor-content">
-    <h4 class="intro-head">超赞的👍
-      <a href="https://github.com/hinesboy/mavonEditor" target="_blank">mavonEditor</a>
-    </h4>
-     <Input v-model="title" placeholder="输入文章标题.." style="width: 280px"></Input>
-     <Select v-model="type_id" style="width:120px">
-        <Option v-for="item in types" :value="item.id" :key="item.id">{{ item.name }}</Option>
-    </Select>
-    <CheckboxGroup v-model="tagIds">
-        <Checkbox v-for="item in tags" :label="item.id" :key="item.id +  '00' " >{{item.name}}</Checkbox>
+    <Form :label-width="48">
+      <FormItem label="标题 :">
+        <Input v-model="title" placeholder="输入文章标题.." style="width: 280px"></Input>
+      </FormItem>
+      <FormItem label="类别 :">
+        <Select v-model="type_id" style="width:120px">
+          <Option v-for="item in types" :value="item.id" :key="item.id">{{ item.name }}</Option>
+        </Select>
+      </FormItem>
+      <FormItem label="标签 :">
+        <CheckboxGroup v-model="tagIds">
+          <Checkbox v-for="item in tags" :label="item.id" :key="item.id +  '00' ">{{item.name}}</Checkbox>
+        </CheckboxGroup>
+      </FormItem>
+    </Form>
+    <mavon-editor style="  margin-top: 30px;" v-model="mdString" placeholder="这里是文章内容.." @change="getChang" />
+    <br>
+    <Button type="primary"  @click="AddArticle">发布文章</Button>
 
-    </CheckboxGroup>
-     <Button type="primary" style="margin-left:10%" @click="AddArticle">发布文章</Button>
-    <mavon-editor style="  margin-top: 30px;" v-model="mdString" placeholder="这里是文章内容.." @change="getChang"/>
   </div>
 </template>
 
@@ -35,14 +41,17 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('TypeList').then((response) => {
-      let data = response.data
-      this.types = data.types ? data.types : []
-      this.tags = data.tags ? data.tags : []
-    }).catch(err => {
-      console.log(err)
-      this.$Message.error('error')
-    })
+    this.$store
+      .dispatch('TypeList')
+      .then(response => {
+        let data = response.data
+        this.types = data.types ? data.types : []
+        this.tags = data.tags ? data.tags : []
+      })
+      .catch(err => {
+        console.log(err)
+        this.$Message.error('error')
+      })
   },
   methods: {
     AddArticle () {
@@ -55,15 +64,18 @@ export default {
         this.$Message.error('param error')
         return
       }
-      let article = {title, content, tagIds, type_id: typeId}
-      this.$store.dispatch('AddArticle', article).then((response) => {
-        // console.log(response)
-        this.$Message.success('发布成功')
-        this.$router.push({name: 'ArticleList'})
-      }).catch(err => {
-        console.log(err)
-        this.$Message.error('error')
-      })
+      let article = { title, content, tagIds, type_id: typeId }
+      this.$store
+        .dispatch('AddArticle', article)
+        .then(response => {
+          // console.log(response)
+          this.$Message.success('发布成功')
+          this.$router.push({ name: 'ArticleList' })
+        })
+        .catch(err => {
+          console.log(err)
+          this.$Message.error('error')
+        })
     },
     getChang (value, html) {
       this.content = html
@@ -73,9 +85,6 @@ export default {
 </script>
 
 <style scoped>
-.editor-content {
-  height: 800px;
-}
 .intro-head {
   text-align: center;
   margin: 1px;
