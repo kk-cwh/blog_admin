@@ -60,11 +60,12 @@ export default {
       let content = this.content
       let typeId = this.type_id
       let tagIds = this.tagIds
+      let contentMd = this.mdString
       if (!title || !content || !typeId) {
         this.$Message.error('param error')
         return
       }
-      let article = { title, content, tagIds, type_id: typeId }
+      let article = { title, content, tagIds, type_id: typeId, content_md: contentMd }
       this.$store
         .dispatch('AddArticle', article)
         .then(response => {

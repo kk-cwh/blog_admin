@@ -147,6 +147,36 @@ const store = new Vuex.Store({
         })
       })
     },
+    UpdateArticle ({ commit }, article) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: `/api/articles/${article.id}`,
+          method: 'put',
+          data: article
+        }).then(response => {
+          if (response.data) {
+            resolve(response)
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    GetArticleDetail ({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: `/api/articles/${data.id}`,
+          method: 'get'
+        }).then(response => {
+          if (response.data) {
+            const data = response.data
+            resolve(data)
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
     ArticleList ({ commit }, data) {
       return new Promise((resolve, reject) => {
         http({
