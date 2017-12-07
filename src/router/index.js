@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Continer from '@/views/Continer'
+import Admin from '@/views/Admin'
 import Login from '@/views/Login'
 import Markdown from '@/views/Markdown'
 import ArticleList from '@/views/ArticleList'
@@ -13,7 +13,7 @@ export const menuRoutes = [
 
   {
     path: '/article',
-    component: Continer,
+    component: Admin,
     name: 'Article',
     meta: {
       name: '文章管理',
@@ -40,7 +40,7 @@ export const menuRoutes = [
   },
   {
     path: '/user',
-    component: Continer,
+    component: Admin,
     name: 'User',
     meta: {
       name: '用户管理',
@@ -78,7 +78,7 @@ const loginRoute = {
 
 const homeRoute = {
   path: '/home',
-  component: Continer,
+  component: Admin,
   name: 'Home',
   meta: {
     name: '首页'

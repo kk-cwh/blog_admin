@@ -2,7 +2,7 @@ import { Message } from 'iview'
 import axios from 'axios'
 import { getToken } from '../utils/token'
 let http = axios.create({
-  // baseURL: process.env.BASE_API,
+  baseURL: process.env.BASE_API,
   timeout: 5000
 })
 // http.defaults.timeout = 5000
