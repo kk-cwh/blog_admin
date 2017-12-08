@@ -1,66 +1,97 @@
+
+<style scoped>
+.login {
+  width: 100%;
+  height: 100vh;
+  background-image: url(/static/login_bg.jpg);
+  background-size: cover;
+  background-position: center;
+  /* position: relative; */
+}
+.login-con {
+  position: absolute;
+  right: 160px;
+  top: 50%;
+  transform: translatey(-60%);
+  width: 300px;
+}
+.login-con-header {
+  font-size: 16px;
+  font-weight: 300;
+  text-align: center;
+  padding: 30px 0;
+}
+.login-con .form-con {
+  padding: 10px 0 0;
+}
+.login-con .login-tip {
+  font-size: 10px;
+  text-align: center;
+  color: #c3c3c3;
+}
+
+</style>
+
 <template>
-
-  <div class="login-container">
-
-    <Form ref="formInline" :model="formInline" :rules="ruleInline" class="login-form">
-      <FormItem prop="username">
-        <Input type="text" v-model="formInline.username" placeholder="Email" autoComplete="on" size="large">
-        <Icon type="email" slot="prepend"></Icon>
-        </Input>
-      </FormItem>
-
-      <FormItem prop="password">
-        <Input type="password" v-model="formInline.password" placeholder="Password" size="large">
-        <Icon type="ios-locked-outline" slot="prepend"></Icon>
-        </Input>
-      </FormItem>
-      <br>
-      <FormItem>
-        <Button type="primary" @click="handleSubmit('formInline')" long  size="large">登 录</Button>
-      </FormItem>
-    </Form>
-
-  </div>
-
+    <div class="login" @keydown.enter="handleSubmit">
+        <div class="login-con">
+            <Card :bordered="false">
+                <p slot="title">
+                    <Icon type="log-in"></Icon>
+                    欢迎登录
+                </p>
+                <div class="form-con">
+                    <Form ref="loginForm" :model="form" :rules="rules">
+                        <FormItem prop="username">
+                            <Input v-model="form.username" placeholder="请输入邮箱">
+                                <span slot="prepend">
+                                    <Icon :size="16" type="email"></Icon>
+                                </span>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="password">
+                            <Input type="password" v-model="form.password" placeholder="请输入密码">
+                                <span slot="prepend">
+                                    <Icon :size="14" type="locked"></Icon>
+                                </span>
+                            </Input>
+                        </FormItem>
+                        <FormItem>
+                            <Button @click="handleSubmit" type="primary" long>登录</Button>
+                        </FormItem>
+                    </Form>
+                    <p class="login-tip">输入用户名和密码即可</p>
+                </div>
+            </Card>
+        </div>
+    </div>
 </template>
+
 <script>
+
 export default {
   data () {
     return {
-      formInline: {
+      form: {
         username: '',
         password: ''
       },
-      ruleInline: {
+      rules: {
         username: [
-          {
-            required: true,
-            message: 'Please fill in the email',
-            trigger: 'blur'
-          }
+                    { required: true, message: '账号不能为空', trigger: 'blur' }
         ],
         password: [
-          {
-            required: true,
-            message: 'Please fill in the password.',
-            trigger: 'blur'
-          },
-          {
-            type: 'string',
-            min: 5,
-            message: 'The password length cannot be less than 5 bits',
-            trigger: 'blur'
-          }
+                    { required: true, message: '密码不能为空', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    handleSubmit (name) {
-      this.$refs[name].validate(valid => {
+    handleSubmit () {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.$store
-            .dispatch('Login', this.formInline)
+            .dispatch('Login', this.form)
             .then(() => {
               this.$store.dispatch('GetUserInfo').then(() => {
                 this.$Message.success('Success!')
@@ -78,25 +109,3 @@ export default {
   }
 }
 </script>
-
-  <style scoped>
-
-
-.login-container {
-  height: 100vh;
-  background-color: rgba(40, 90, 144, 0.91);
-}
-
-.login-form {
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 400px;
-  padding: 35px 35px 15px 35px;
-  margin: 180px auto;
-  background: #fff;
-  box-sizing:border-box;
-  border: 1px solid #fff;
-  border-radius: 4%;
-}
-</style>
